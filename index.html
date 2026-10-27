@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Fayçal Boubekri</title>
+<meta name="description" content="AI & Data Engineer à Paris : agents IA, RAG et pipelines de données livrés au forfait, avec des résultats mesurés.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : une colonne éditoriale large ; chaque projet = texte + preuve (chiffres vérifiés, capture).
+   Le seul geste fort : les chiffres mesurés en Archivo très condensé, contre des titres en Archivo élargi. */
+:root{
+  --bg:#f1f2ee; --surface:#fbfbf9; --ink:#141a24; --ink-2:#4a5260; --muted:#7b8290; --line:#d9dcd4;
+  --accent:#2e3db5; --accent-soft:#e3e6f7; --measured:#1f6b45; --measured-soft:#dfeee5;
+  --pending:#8a5a00; --pending-soft:#f6ecd6; --term-bg:#151b26; --term-ink:#dfe4ee; --term-dim:#8a93a6;
+  --term-ok:#7fcf9f; --term-bad:#f08a8a; --term-warn:#f2c46b;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-data:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1218; --surface:#161a22; --ink:#e8eaf0; --ink-2:#aab0bd; --muted:#808896; --line:#272c37;
+  --accent:#9aa6ff; --accent-soft:#1e2445; --measured:#7fcf9f; --measured-soft:#15291e;
+  --pending:#f2c46b; --pending-soft:#2c2414; --term-bg:#0a0d12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1218; --surface:#161a22; --ink:#e8eaf0; --ink-2:#aab0bd; --muted:#808896; --line:#272c37;
+  --accent:#9aa6ff; --accent-soft:#1e2445; --measured:#7fcf9f; --measured-soft:#15291e;
+  --pending:#f2c46b; --pending-soft:#2c2414; --term-bg:#0a0d12; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+
+/* en-tête */
+.top{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;justify-content:space-between;padding-block:22px}
+.who{font:700 17px var(--f-display);font-stretch:110%;letter-spacing:.01em;color:var(--ink);text-decoration:none}
+.who span{font:400 14px var(--f-body);color:var(--ink-2);margin-left:8px;font-stretch:100%}
+nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px}
+nav a{color:var(--ink-2);text-decoration:none}
+nav a:hover{color:var(--accent)}
+
+/* ouverture */
+.hero{padding-block:48px 36px;display:grid;gap:22px}
+.eyebrow{font:500 12px var(--f-data);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-size:clamp(2.1rem,5.2vw,4rem);line-height:1.04;font-weight:760;font-stretch:118%;letter-spacing:-.015em;max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:clamp(1.05rem,1.6vw,1.2rem);color:var(--ink-2);max-width:60ch;margin:0}
+.ctas{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;font:600 15px var(--f-body);text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn:hover{border-color:var(--accent)}
+
+/* registre des chiffres mesurés */
+.ledger{border-top:2px solid var(--ink);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-block:8px 64px}
+.ledger div{padding:18px 18px 16px 0;display:grid;gap:4px;align-content:start}
+.ledger div + div{padding-left:18px;border-left:1px solid var(--line)}
+.ledger b{font:800 clamp(2.4rem,5.5vw,4.2rem)/0.95 var(--f-display);font-stretch:68%;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.ledger span{font-size:14px;color:var(--ink-2);line-height:1.4}
+.ledger small{font:500 11px var(--f-data);color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:760px){.ledger{grid-template-columns:repeat(2,minmax(0,1fr))}.ledger div:nth-child(3){padding-left:0;border-left:0}.ledger div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+/* sections */
+section{padding-block:8px 56px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px;margin-bottom:28px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:740;font-stretch:112%}
+.sec-head p{margin:0;color:var(--ink-2);font-size:15px;max-width:52ch}
+
+/* projets */
+.project{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:28px 40px;padding-block:36px;border-bottom:1px solid var(--line)}
+.project:last-of-type{border-bottom:0}
+@media (max-width:900px){.project{grid-template-columns:minmax(0,1fr)}}
+.p-text{display:grid;gap:14px;align-content:start;min-width:0}
+.p-kicker{font:500 12px var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.project h3{font-size:clamp(1.7rem,3.2vw,2.4rem);font-weight:780;font-stretch:115%;line-height:1.05}
+.p-pitch{font-size:17px;margin:0;color:var(--ink)}
+.p-text p{margin:0;color:var(--ink-2);max-width:62ch}
+.p-text ul{margin:0;padding-left:18px;color:var(--ink-2);display:grid;gap:4px}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack span{font:500 12px var(--f-data);padding:3px 8px;border:1px solid var(--line);border-radius:5px;color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.links a{font:600 14px var(--f-body);text-decoration:none;padding:7px 12px;border-radius:7px;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+
+.p-proof{display:grid;gap:14px;align-content:start;min-width:0}
+.checks{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 16px}
+.checks h4{font:600 12px var(--f-data);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 2px}
+.check{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;align-items:baseline;padding:9px 0;border-top:1px solid var(--line)}
+.checks h4 + .check{border-top:0}
+.check .v{font:800 22px/1 var(--f-display);font-stretch:72%;font-variant-numeric:tabular-nums;min-width:4.2ch}
+.check .d{font-size:14px;color:var(--ink-2);line-height:1.45}
+.tag{display:inline-block;font:500 11px var(--f-data);letter-spacing:.03em;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:1px}
+.tag.m{background:var(--measured-soft);color:var(--measured)}
+.tag.p{background:var(--pending-soft);color:var(--pending)}
+figure{margin:0;display:grid;gap:6px}
+figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+figcaption{font-size:13px;color:var(--muted)}
+
+.term{background:var(--term-bg);color:var(--term-ink);border-radius:10px;padding:16px 18px;font:13px/1.65 var(--f-data);overflow-x:auto;margin:0}
+.term .dim{color:var(--term-dim)} .term .ok{color:var(--term-ok)} .term .bad{color:var(--term-bad)} .term .warn{color:var(--term-warn)}
+
+/* offres */
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px}
+.offer{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:10px;align-content:start}
+.offer h3{font-size:19px;font-weight:720;font-stretch:108%;line-height:1.2}
+.offer p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.price{display:flex;align-items:baseline;gap:8px;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+.price b{font:800 30px/1 var(--f-display);font-stretch:70%;font-variant-numeric:tabular-nums;white-space:nowrap}
+.price span{font-size:13px;color:var(--muted)}
+.offer.custom{background:transparent;border-style:dashed}
+.note{font-size:13.5px;color:var(--muted);margin:14px 0 0;max-width:80ch}
+
+/* méthode : une vraie séquence */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:20px;counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{display:grid;gap:6px;align-content:start;counter-increment:s}
+.steps li::before{content:"Étape " counter(s);font:500 12px var(--f-data);color:var(--accent);letter-spacing:.05em;text-transform:uppercase}
+.steps b{font:700 18px var(--f-display);font-stretch:108%}
+.steps span{font-size:14.5px;color:var(--ink-2)}
+
+/* parcours */
+.cv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:10px 40px;margin:0}
+.cv div{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:12px;padding-block:12px;border-top:1px solid var(--line)}
+.cv dt{font:500 13px var(--f-data);color:var(--muted)}
+.cv dd{margin:0;font-size:15px}
+.cv dd small{display:block;color:var(--ink-2);font-size:14px}
+
+/* contact */
+.contact{background:var(--ink);color:var(--bg);border-radius:14px;padding:32px clamp(20px,4vw,40px);display:grid;gap:14px;margin-bottom:56px}
+.contact h2{font-size:clamp(1.6rem,3.4vw,2.4rem);font-weight:760;font-stretch:115%}
+.contact p{margin:0;max-width:60ch;color:var(--bg);opacity:.82}
+.contact .links a{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 35%,transparent)}
+.contact .links a:hover{border-color:var(--bg)}
+footer{padding-block:0 40px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <a class="who" href="#">Fayçal Boubekri<span>AI &amp; Data Engineer · Paris</span></a>
+    <nav aria-label="Sections">
+      <a href="#projets">Projets</a><a href="#offres">Offres</a><a href="#methode">Méthode</a><a href="#parcours">Parcours</a><a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Freelance au forfait · agents IA · RAG · pipelines de données</p>
+    <h1>Des systèmes IA qui tiennent leurs <em>chiffres</em>.</h1>
+    <p class="lede">Je conçois et livre des agents IA, des assistants sur documents internes et des pipelines de données pour les PME et ETI. Chaque projet arrive avec son évaluation : ce qui marche, mesuré, et ce qui reste à vérifier, écrit noir sur blanc.</p>
+    <div class="ctas"><a class="btn primary" href="#projets">Voir les projets</a><a class="btn" href="#offres">Offres au forfait</a></div>
+  </div>
+
+  <div class="ledger" aria-label="Résultats mesurés sur les projets">
+    <div><small>FactuAgent</small><b>7/7</b><span>anomalies de facture détectées, dont la fraude au changement d'IBAN</span></div>
+    <div><small>Vélib Pulse</small><b>50/50</b><span>incidents retrouvés sur 5 simulations, aucune fausse alerte</span></div>
+    <div><small>Boussole</small><b>0</b><span>fuite de document confidentiel sur 8 questions piégées</span></div>
+    <div><small>4 projets</small><b>61</b><span>tests automatisés, tous au vert à la publication</span></div>
+  </div>
+
+  <section id="projets">
+    <div class="sec-head"><h2>Projets</h2><p>Code complet, tests et rapports d'évaluation publiés. Les données de démonstration sont synthétiques ou ouvertes.</p></div>
+
+    <article class="project">
+      <div class="p-text">
+        <span class="p-kicker">IA documentaire · finance</span>
+        <h3>FactuAgent</h3>
+        <p class="p-pitch">Un agent qui lit les factures fournisseurs, les contrôle et bloque les suspectes avant paiement.</p>
+        <p>Depuis septembre 2026, toutes les entreprises doivent pouvoir recevoir des factures électroniques. Pendant la transition, la comptabilité reçoit un mélange de Factur-X et de PDF classiques, et la fraude au faux RIB reste un risque majeur.</p>
+        <ul>
+          <li>Lecture directe du XML Factur-X (EN 16931), extraction par Claude pour les PDF classiques</li>
+          <li>Contrôles : clé du SIREN, n° de TVA, IBAN, HT + TVA = TTC, délai légal de 60 jours</li>
+          <li>Détection des doublons et des changements d'IBAN par rapport à l'historique</li>
+          <li>Serveur MCP : les factures s'interrogent depuis Claude Desktop</li>
+        </ul>
+        <div class="stack"><span>Python</span><span>Pydantic</span><span>Claude · tool use</span><span>Factur-X / CII</span><span>DuckDB</span><span>MCP</span></div>
+        <div class="links" data-repo="factuagent"></div>
+      </div>
+      <div class="p-proof">
+        <div class="checks">
+          <h4>Vérifié sur 41 factures de démonstration</h4>
+          <div class="check"><span class="v">100 %</span><span class="d">des champs exacts sur Factur-X et sur les mises en page connues <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">7/7</span><span class="d">anomalies injectées détectées, 1 fausse alerte de niveau avertissement <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">0 %</span><span class="d">par règles sur les factures en texte libre : elles partent en revue humaine, c'est le rôle de l'extraction par Claude <span class="tag p">à mesurer avec une clé d'API</span></span></div>
+        </div>
+<pre class="term" aria-label="Sortie de la ligne de commande"><span class="dim">$ python -m factuagent.cli process data/invoices</span>
+<span class="ok">✓</span> 031_classic.pdf                      [rules  ]
+<span class="bad">✗</span> 032_classic.pdf                      [rules  ] TOTALS_MISMATCH
+<span class="bad">✗</span> 033_siret_facturx.pdf                [facturx] SIREN_INVALID, VAT_INVALID
+<span class="bad">✗</span> 034_classic.pdf                      [rules  ] IBAN_CHANGED
+<span class="warn">!</span> 035_classic.pdf                      [rules  ] PAYMENT_TERMS
+<span class="bad">✗</span> 041_doublon_021_classic_facturx.pdf  [facturx] DUPLICATE
+
+41 factures : 31 OK, 2 à vérifier, 8 à revoir</pre>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="p-text">
+        <span class="p-kicker">Data engineering temps réel · mobilité</span>
+        <h3>Vélib Pulse</h3>
+        <p class="p-pitch">La supervision du réseau Vélib', du flux ouvert jusqu'au brief des équipes terrain.</p>
+        <p>Une station qui ne remonte plus rien ou des bornettes hors service ne se voient pas sur une carte des vélos disponibles. Vélib Pulse les repère, les classe par priorité et calcule où envoyer les camions de régulation.</p>
+        <ul>
+          <li>Collecte du flux GBFS toutes les 60 s vers Redpanda (API Kafka), lu directement par ClickHouse</li>
+          <li>dbt : 7 modèles dont un incrémental par quart d'heure, 18 tests de qualité</li>
+          <li>Détection : stations muettes, bornettes HS, fermetures, stations toujours vides ou pleines</li>
+          <li>Agent IA qui rédige le brief opérations, serveur MCP pour l'interroger</li>
+        </ul>
+        <div class="stack"><span>Redpanda / Kafka</span><span>ClickHouse</span><span>dbt</span><span>Python</span><span>Docker Compose</span><span>Claude</span><span>MCP</span></div>
+        <div class="links" data-repo="velib-pulse"></div>
+      </div>
+      <div class="p-proof">
+        <div class="checks">
+          <h4>Vérifié sur 5 simulations de 150 stations × 48 h</h4>
+          <div class="check"><span class="v">50/50</span><span class="d">incidents injectés retrouvés, aucune fausse alerte <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">1 min</span><span class="d">d'écart médian sur l'heure de début d'une panne de station muette <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">90→100</span><span class="d">% de rappel après correction : les grandes stations avec 1 ou 2 vélos coincés comptent désormais comme vides <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">Kafka</span><span class="d">ingestion par le moteur Kafka de ClickHouse, validée en syntaxe <span class="tag p">à tester sous Docker</span></span></div>
+        </div>
+        <figure><img src="img/velib.webp" alt="Rapport Vélib Pulse : indicateurs du réseau, brief opérations rédigé, courbes sur 48 heures" width="1400" height="1145" loading="lazy"><figcaption>Rapport généré à partir des marts dbt, sur données simulées au format GBFS.</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="p-text">
+        <span class="p-kicker">RAG agentique · gouvernance</span>
+        <h3>Boussole</h3>
+        <p class="p-pitch">Un assistant sur les documents internes qui cite ses sources et respecte les droits d'accès.</p>
+        <p>Trois risques font échouer ces assistants en entreprise : ils inventent, ils divulguent, et personne ne sait ce qu'ils coûtent. Boussole est construit autour de ces trois risques, sur 16 documents d'une entreprise fictive.</p>
+        <ul>
+          <li>Ingestion Word, PDF, HTML et Markdown, découpage par titres</li>
+          <li>Recherche hybride BM25 + vecteurs, fusion RRF</li>
+          <li>Droits filtrés avant la recherche, rôle fixé côté serveur, versions périmées écartées</li>
+          <li>Citations exactes de Claude, coût et tokens journalisés par question, cache cloisonné par rôle</li>
+        </ul>
+        <div class="stack"><span>Claude · citations</span><span>BM25 + vecteurs</span><span>FastAPI</span><span>SQLite</span><span>scikit-learn</span><span>MCP</span></div>
+        <div class="links" data-repo="boussole"></div>
+      </div>
+      <div class="p-proof">
+        <div class="checks">
+          <h4>Vérifié sur 48 questions de référence</h4>
+          <div class="check"><span class="v">92 %</span><span class="d">de rappel à 5 résultats en recherche hybride (MRR 0,83) <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">0</span><span class="d">fuite de document confidentiel, y compris sur une tentative d'injection, et 0 ancienne version remontée <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">75 %</span><span class="d">sur les questions en langage familier : le point faible que l'agent corrige en reformulant <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">Haiku · Sonnet</span><span class="d">comparaison qualité et coût des réponses générées, script prêt <span class="tag p">à mesurer avec une clé d'API</span></span></div>
+        </div>
+        <figure><img src="img/boussole.webp" alt="Interface de Boussole : sélecteur de rôle, question, passages sources et panneau de coûts" width="1280" height="923" loading="lazy"><figcaption>Interface en mode hors ligne : passages pertinents et panneau de traçabilité des coûts.</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="p-text">
+        <span class="p-kicker">Automatisation · n8n</span>
+        <h3>Automatisations n8n + IA</h3>
+        <p class="p-pitch">Trois workflows prêts à déployer chez une PME, avec un humain dans la boucle.</p>
+        <ul>
+          <li>Tri des emails clients : classement, étiquettes Gmail, brouillons de réponse, alerte Slack</li>
+          <li>Factures reçues par email : extraction, contrôles anti-fraude, tableau de suivi</li>
+          <li>Veille appels d'offres : avis du BOAMP filtrés, notés par Claude selon le profil de l'entreprise</li>
+        </ul>
+        <p>Rien n'est envoyé, payé ou validé automatiquement : les réponses restent des brouillons et les factures suspectes sont bloquées.</p>
+        <div class="stack"><span>n8n</span><span>Claude Haiku</span><span>Gmail</span><span>Google Sheets</span><span>API BOAMP</span><span>JavaScript</span></div>
+        <div class="links" data-repo="n8n-ia"></div>
+      </div>
+      <div class="p-proof">
+        <div class="checks">
+          <h4>Vérifié dans n8n 2.44</h4>
+          <div class="check"><span class="v">3/3</span><span class="d">workflows importés et ouverts sans erreur de configuration <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">9</span><span class="d">tests sur la logique de contrôle, exécutée aussi dans le moteur n8n <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">API</span><span class="d">appels réels à Gmail, Sheets, Slack et Claude <span class="tag p">à la mise en service</span></span></div>
+        </div>
+        <figure><img src="img/n8n-emails.webp" alt="Workflow n8n de tri des emails : déclencheur Gmail, classement par Claude, étiquettes et brouillons" width="1400" height="753" loading="lazy"><figcaption>Workflow de tri des emails dans l'éditeur n8n.</figcaption></figure>
+      </div>
+    </article>
+  </section>
+
+  <section id="offres">
+    <div class="sec-head"><h2>Offres au forfait</h2><p>Un livrable défini, un prix fixe, une démonstration et deux semaines d'ajustements inclus.</p></div>
+    <div class="offers">
+      <article class="offer"><h3>Tri des emails et brouillons de réponse</h3><p>Emails classés et étiquetés, brouillons prêts à relire pour les réclamations et le support, alerte sur les réclamations.</p><div class="price"><b>1 200 €</b><span>HT · 5 jours ouvrés</span></div></article>
+      <article class="offer"><h3>Factures fournisseurs contrôlées</h3><p>Extraction par IA, contrôles SIREN, IBAN, totaux et délai légal, alerte sur les changements d'IBAN, tableau de suivi.</p><div class="price"><b>1 800 €</b><span>HT · 7 jours ouvrés</span></div></article>
+      <article class="offer"><h3>Veille appels d'offres qualifiée</h3><p>Avis du BOAMP filtrés et notés chaque matin selon votre profil, synthèse par email et tableau de suivi.</p><div class="price"><b>1 500 €</b><span>HT · 5 jours ouvrés</span></div></article>
+      <article class="offer custom"><h3>Projet sur mesure</h3><p>Agent IA métier, assistant sur vos documents, socle de données temps réel ou plateforme dbt + ClickHouse.</p><div class="price"><b>Sur devis</b><span>après un cadrage</span></div></article>
+    </div>
+    <p class="note">Maintenance et évolutions : 90 € HT par mois et par automatisation. Le coût d'usage de l'IA reste de l'ordre de quelques dizaines de centimes par mois pour ces volumes (Claude Haiku 5.5).</p>
+  </section>
+
+  <section id="methode">
+    <div class="sec-head"><h2>Méthode</h2><p>La même démarche que dans les projets ci-dessus.</p></div>
+    <ol class="steps">
+      <li><b>Cadrage</b><span>Un livrable, un critère de réussite chiffré et les données disponibles, fixés par écrit.</span></li>
+      <li><b>Prototype</b><span>Une première version sur vos données réelles en quelques jours, pour décider vite.</span></li>
+      <li><b>Évaluation</b><span>Un jeu de cas de test et les chiffres obtenus, avant toute mise en production.</span></li>
+      <li><b>Mise en service</b><span>Déploiement sur vos outils, documentation et passation à vos équipes.</span></li>
+    </ol>
+  </section>
+
+  <section id="parcours">
+    <div class="sec-head"><h2>Parcours</h2><p>Data engineering et IA appliquée, du NLP aux plateformes de supervision.</p></div>
+    <dl class="cv">
+      <div><dt>Aujourd'hui</dt><dd>Ingénieur projet data<small>Plateforme de supervision d'infrastructures urbaines et de bornes de recharge : pipelines, ClickHouse, dbt, qualité des données, reporting.</small></dd></div>
+      <div><dt>Formation</dt><dd>Mastère Data Engineering &amp; IA, EFREI Paris<small>En parallèle de l'activité professionnelle.</small></dd></div>
+      <div><dt>Avant</dt><dd>Wessini et ICOSNET<small>Traitement automatique du langage chez Wessini, intelligence artificielle chez ICOSNET.</small></dd></div>
+      <div><dt>Formation</dt><dd>Master, Université de Blida</dd></div>
+    </dl>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Un process à automatiser, des documents à exploiter ?</h2>
+    <p>Décrivez-moi le besoin en quelques lignes : je vous réponds avec une proposition de livrable, de délai et de prix fixe.</p>
+    <div class="links" id="contact-links"></div>
+  </section>
+
+  <footer>© 2026 Fayçal Boubekri · Données des démonstrations synthétiques ou issues de l'open data.</footer>
+</div>
+
+<script>
+// Coordonnées publiques : chaque lien vide est simplement masqué.
+const PROFILE = {
+  github: "ooFaycaloo",      // nom d'utilisateur GitHub
+  linkedin: "",    // URL complète du profil LinkedIn
+  malt: "",        // URL complète du profil Malt
+};
+
+(function () {
+  const gh = PROFILE.github && `https://github.com/${PROFILE.github}`;
+  document.querySelectorAll("[data-repo]").forEach(box => {
+    if (!gh) { box.hidden = true; return; }
+    const a = document.createElement("a");
+    a.href = `${gh}/${box.dataset.repo}`; a.textContent = "Code et rapport d'évaluation sur GitHub";
+    a.target = "_blank"; a.rel = "noopener";
+    box.appendChild(a);
+  });
+  const contact = document.getElementById("contact-links");
+  [["Profil Malt", PROFILE.malt], ["LinkedIn", PROFILE.linkedin], ["GitHub", gh]].forEach(([label, url]) => {
+    if (!url) return;
+    const a = document.createElement("a");
+    a.href = url; a.textContent = label; a.target = "_blank"; a.rel = "noopener";
+    contact.appendChild(a);
+  });
+  contact.hidden = !contact.children.length;
+})();
+</script>
+</body>
+</html>
