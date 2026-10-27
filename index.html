@@ -8,7 +8,7 @@
 <meta name="description" content="AI & Data Engineer à Paris : agents IA, RAG et pipelines de données livrés au forfait, avec des résultats mesurés.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Naskh+Arabic:wght@500&display=swap">
 <style>
 /* Mise en page : une colonne éditoriale large ; chaque projet = texte + preuve (chiffres vérifiés, capture).
    Le seul geste fort : les chiffres mesurés en Archivo très condensé, contre des titres en Archivo élargi. */
@@ -100,6 +100,11 @@ section{padding-block:8px 56px}
 figure{margin:0;display:grid;gap:6px}
 figure img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
 figcaption{font-size:13px;color:var(--muted)}
+.dialect{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;gap:10px}
+.d-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.d-lab{font:500 12px var(--f-data);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.ar{font:500 26px/1.4 "Noto Naskh Arabic","Geeza Pro","Arabic Typesetting",serif;direction:rtl}
+
 
 .term{background:var(--term-bg);color:var(--term-ink);border-radius:10px;padding:16px 18px;font:13px/1.65 var(--f-data);overflow-x:auto;margin:0}
 .term .dim{color:var(--term-dim)} .term .ok{color:var(--term-ok)} .term .bad{color:var(--term-bad)} .term .warn{color:var(--term-warn)}
@@ -159,7 +164,7 @@ footer{padding-block:0 40px;font-size:13px;color:var(--muted)}
     <div><small>FactuAgent</small><b>7/7</b><span>anomalies de facture détectées, dont la fraude au changement d'IBAN</span></div>
     <div><small>Vélib Pulse</small><b>50/50</b><span>incidents retrouvés sur 5 simulations, aucune fausse alerte</span></div>
     <div><small>Boussole</small><b>0</b><span>fuite de document confidentiel sur 8 questions piégées</span></div>
-    <div><small>4 projets</small><b>61</b><span>tests automatisés, tous au vert à la publication</span></div>
+    <div><small>5 projets</small><b>78</b><span>tests automatisés, tous au vert à la publication</span></div>
   </div>
 
   <section id="projets">
@@ -255,6 +260,38 @@ footer{padding-block:0 40px;font-size:13px;color:var(--muted)}
 
     <article class="project">
       <div class="p-text">
+        <span class="p-kicker">LLM souverain · arabe dialectal</span>
+        <h3>LLM en dialecte saoudien</h3>
+        <p class="p-pitch">Des modèles de 0,8 à 9 milliards de paramètres qui parlent le dialecte saoudien et tournent sur un seul GPU de l'entreprise.</p>
+        <p>Les grands modèles parlent l'arabe standard, beaucoup moins les dialectes. Un service client du Golfe doit parler comme ses clients et garder les conversations sur place.</p>
+        <ul>
+          <li>Fine-tuning LoRA de Qwen3.5 et LFM2.5 avec Unsloth, sur 3&nbsp;545 conversations en dialecte najdi</li>
+          <li>Six modèles publiés sur Hugging Face, de 0,8 à 9 milliards de paramètres</li>
+          <li>Entraînement reproductible à partir des configurations publiées, évaluation du registre dialectal</li>
+          <li>Service 100 % local avec Ollama ou vLLM, API compatible OpenAI</li>
+        </ul>
+        <p>Projet mené en binôme avec Ayoub Cherguelaine ; les modèles sont publiés sur son compte Hugging Face.</p>
+        <div class="stack"><span>Unsloth</span><span>TRL · LoRA</span><span>Qwen3.5</span><span>LFM2.5</span><span>Ollama</span><span>vLLM</span></div>
+        <div class="links" data-repo="llm-dialecte-saoudien"><a href="https://huggingface.co/collections/AyoubChLin/saudi-dialect-fine-tuned-models" target="_blank" rel="noopener">Les modèles sur Hugging Face</a></div>
+      </div>
+      <div class="p-proof">
+        <div class="checks">
+          <h4>Mesuré lors des entraînements (179 conversations de test)</h4>
+          <div class="check"><span class="v">1,42</span><span class="d">de perte d'évaluation pour le 9B, contre 1,50 pour le 4B et 1,70 pour le 2B <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">−16 %</span><span class="d">de perte en passant de 2 à 9 milliards de paramètres, mêmes données et mêmes réglages <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">43 min</span><span class="d">d'entraînement pour le 9B sur une seule carte A100 <span class="tag m">mesuré</span></span></div>
+          <div class="check"><span class="v">Registre</span><span class="d">part des réponses en dialecte face à l'arabe standard, avant et après entraînement <span class="tag p">à mesurer sur GPU</span></span></div>
+        </div>
+        <figure class="dialect" aria-label="Exemple de différence entre dialecte saoudien et arabe standard">
+          <div class="d-row"><span class="d-lab">Dialecte saoudien</span><span class="ar" lang="ar">وش تبي؟</span></div>
+          <div class="d-row"><span class="d-lab">Arabe standard</span><span class="ar" lang="ar">ماذا تريد؟</span></div>
+          <figcaption>« Que veux-tu ? » : la même question, deux registres. Les modèles sont entraînés sur le premier.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="p-text">
         <span class="p-kicker">Automatisation · n8n</span>
         <h3>Automatisations n8n + IA</h3>
         <p class="p-pitch">Trois workflows prêts à déployer chez une PME, avec un humain dans la boucle.</p>
@@ -330,11 +367,11 @@ const PROFILE = {
 (function () {
   const gh = PROFILE.github && `https://github.com/${PROFILE.github}`;
   document.querySelectorAll("[data-repo]").forEach(box => {
-    if (!gh) { box.hidden = true; return; }
+    if (!gh) { box.hidden = !box.children.length; return; }
     const a = document.createElement("a");
     a.href = `${gh}/${box.dataset.repo}`; a.textContent = "Code et rapport d'évaluation sur GitHub";
     a.target = "_blank"; a.rel = "noopener";
-    box.appendChild(a);
+    box.prepend(a);
   });
   const contact = document.getElementById("contact-links");
   [["Profil Malt", PROFILE.malt], ["LinkedIn", PROFILE.linkedin], ["GitHub", gh]].forEach(([label, url]) => {
